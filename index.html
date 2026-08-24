@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potted Plant Watering Scheduler // Dark Terrarium</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <header>
+            <div class="lg">
+                <div class="lgi">🌵</div>
+                <div>
+                    <h1>Dark Terrarium Scheduler</h1>
+                    <p>Botanical Moisture &amp; Care Tracker</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="summary-bar" aria-label="Terrarium Moisture Summary">
+            <div class="stat-card">
+                <div class="stat-val" id="statTotal" aria-live="polite">0</div>
+                <div class="stat-lbl">Terrarium Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="statOverdue" style="color:var(--rose)" aria-live="polite">0</div>
+                <div class="stat-lbl">Moisture Needed 🥀</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="statOptimal" style="color:var(--emerald)" aria-live="polite">0</div>
+                <div class="stat-lbl">Optimal Hydration 🌿</div>
+            </div>
+        </section>
+
+        <div class="grid">
+            <section class="card" aria-labelledby="formTitle">
+                <div class="card-title" id="formTitle">🌱 Catalog Botanical Specimen</div>
+
+                <form id="botanicalForm" novalidate>
+                    <div class="field-error" id="formError" role="alert"></div>
+
+                    <div class="ig">
+                        <label class="il" for="inputTitle">Plant Title</label>
+                        <div class="iw">
+                            <input type="text" id="inputTitle" placeholder="e.g. Desert Cactus" aria-required="true">
+                        </div>
+                    </div>
+
+                    <div class="ig">
+                        <label class="il" for="inputInterval">Watering Interval (Days)</label>
+                        <div class="iw">
+                            <input type="number" id="inputInterval" value="7" min="1" max="365" aria-required="true">
+                        </div>
+                    </div>
+
+                    <div class="ig">
+                        <label class="il" for="inputSymbol">Species Icon</label>
+                        <div class="iw">
+                            <select id="inputSymbol">
+                                <option value="🌵">🌵 Succulent / Cactus</option>
+                                <option value="🌿">🌿 Foliage (e.g. Calathea)</option>
+                                <option value="🌱">🌱 Vine / Ivy</option>
+                                <option value="🌺">🌺 Flowering Specimen</option>
+                                <option value="🌴">🌴 Exotic Palm</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="ig">
+                        <label class="il">Quick Presets</label>
+                        <div class="preset-pills">
+                            <button type="button" class="btn-preset" onclick="triggerApplyPresetSpec('Desert Cactus', 14, '🌵')">🌵 Cactus (14d)</button>
+                            <button type="button" class="btn-preset" onclick="triggerApplyPresetSpec('Calathea', 5, '🌿')">🌿 Calathea (5d)</button>
+                            <button type="button" class="btn-preset" onclick="triggerApplyPresetSpec('English Ivy', 3, '🌱')">🌱 Ivy (3d)</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.4rem;">
+                        ➕ Add Specimen
+                    </button>
+                </form>
+            </section>
+
+            <section class="card" aria-labelledby="galleryTitle">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.4rem;">
+                    <nav class="filter-bar" id="filterNav" role="tablist" aria-label="Filter Terrarium List">
+                        <button class="btn-filter active" data-filter="all" onclick="triggerSetFilter('all')" role="tab" aria-selected="true" aria-pressed="true">All</button>
+                        <button class="btn-filter" data-filter="overdue" onclick="triggerSetFilter('overdue')" role="tab" aria-selected="false" aria-pressed="false">Needs Water 🥀</button>
+                        <button class="btn-filter" data-filter="healthy" onclick="triggerSetFilter('healthy')" role="tab" aria-selected="false" aria-pressed="false">Optimal 🌿</button>
+                    </nav>
+
+                    <button type="button" class="btn btn-water" onclick="triggerMoistureAllOverdue()" aria-label="Water All Overdue Specimens">
+                        💦 Water All Due
+                    </button>
+                </div>
+
+                <div id="liveAnnouncer" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;" aria-live="polite" role="status"></div>
+
+                <div class="plant-grid" id="terrariumGrid" aria-live="polite" role="status"></div>
+            </section>
+        </div>
+
+        <footer>
+            <div>Dark Terrarium Scheduler &bull; SPA</div>
+            <div>Built for Vibedev Duel</div>
+        </footer>
+    </main>
+
+    <div class="test-widget" id="testWidget" role="region" aria-label="Automated Test Report">
+        <div class="test-title">🧪 Unit Test Report <span onclick="document.getElementById('testWidget').style.display='none'" style="cursor:pointer" aria-label="Close Test Report">❌</span></div>
+        <div id="testLines"></div>
+    </div>
+
+    <script type="module">
+        import { initApp } from './app.js';
+        import { runTests } from './tests.js';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initApp();
+            runTests();
+        });
+    </script>
+</body>
+</html>
